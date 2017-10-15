@@ -1,3 +1,3 @@
 #!/bin/sh
-g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -c RJMCMC_SMC.cpp -I/usr/include -std=c++11
-g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -L/usr/lib -o RJMCMC_SMC RJMCMC_SMC.o -lgsl -lgslcblas -std=c++11
+g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -c RJMCMC.cpp -I/usr/include -std=c++11
+g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -L/usr/lib -o RJMCMC RJMCMC.o -lgsl -lgslcblas -std=c++11
