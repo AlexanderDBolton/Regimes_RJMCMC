@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "multiple_processes_regime.h"
 #include "basic_RJMCMC.h"
-#include "SMC.h"
 using namespace std;
 
 int main(int argc, char * argv[]) {
@@ -41,11 +40,6 @@ int main(int argc, char * argv[]) {
     bool record_binary_rj = false;
     bool record_full_rj = true;
     bool record_similarity_matrix = false;
-    bool run_SMC = false;
-    unsigned long int number_of_particles = 100; //Used for SMC
-    unsigned long int number_of_intervals_per_trace = 50; //Used for SMC
-    bool chopthin_resampling = false;
-    bool always_new_regime = false;
     
     if(argc > 1){
         ifstream InputParameters(argv[1], ios::in);
@@ -76,11 +70,6 @@ int main(int argc, char * argv[]) {
         InputParameters >> separator_file;
         InputParameters >> trace_lengths_file;
         InputParameters >> seed;
-        InputParameters >> run_SMC;
-        InputParameters >> number_of_particles;
-        InputParameters >> number_of_intervals_per_trace;
-        InputParameters >> chopthin_resampling;
-        InputParameters >> always_new_regime;
     }
     
     std::vector< double > model_parameters;
@@ -116,11 +105,6 @@ int main(int argc, char * argv[]) {
     cout << "Recording regime change point distns: " << record_full_rj << endl;
     cout << "Recording similarity matrix: " << record_similarity_matrix << endl;
     cout << "Seed: " << seed << endl;
-    cout << "Running SMC: " << run_SMC << endl;
-    cout << "Number of SMC particles: " << number_of_particles << endl;
-    cout << "Number of SMC intervals per trace: " << number_of_intervals_per_trace << endl;
-    cout << "Performing chopthin resampling: " << chopthin_resampling << endl;
-    cout << "Always new regime: " << always_new_regime << endl;
     
     if (starting_changepoints_file != "no_starting_changepoints") {
         ifstream starting_changepointsFile(starting_changepoints_file);
@@ -175,120 +159,88 @@ int main(int argc, char * argv[]) {
     }
     data_file.erase(data_file.end() - 15, data_file.end());
     
-    if (!run_SMC) {
-        unsigned long int basic_burnin = burnin;
-        unsigned long int basic_iterations = record_basic_rj ? iterations : 0;
-        unsigned long int basic_thinning = thinning;
-    
-        rj rjobject = rj(start_time, end_time, p, var_p, basic_burnin, basic_iterations, basic_thinning, number_of_association_matrix_bins, starting_changepoints, separators, trace_lengths, seed, &pm, intercept, diff);
-        rjobject.record_basic_samples(record_basic_rj);
-        rjobject.run_basic_simulation();
-        if (record_basic_rj) {
-            string MAP_cps_Filename = data_file + "_basic_MAP_CPs.txt";
-            rjobject.write_basic_MAP_changepoints_to_file(MAP_cps_Filename);
-            string dimension_distribution_Filename = data_file + "_basic_dimension_distribution.txt";
-            rjobject.write_basic_dimension_distribution_to_file(dimension_distribution_Filename);
-            string changepoints_distribution_Filename = data_file + "_basic_changepoints_distribution.txt";
-            rjobject.write_basic_changepoints_distribution_to_file(changepoints_distribution_Filename);
-            string log_posterior_trace_Filename = data_file + "_basic_log_posterior_trace.txt";
-            rjobject.write_basic_log_posterior_trace_to_file(log_posterior_trace_Filename);
-            string basic_dimension_trace_Filename = data_file + "_basic_dimension_trace.txt";
-            rjobject.write_basic_dimension_trace_to_file(basic_dimension_trace_Filename);
-        }
-    
-        unsigned long int binary_burnin = burnin;
-        unsigned long int binary_iterations = record_binary_rj ? iterations : 0;
-        unsigned long int binary_thinning = thinning;
-    
-        rjobject.set_binary_burnin_iterations_thinning(binary_burnin, binary_iterations, binary_thinning);
-        rjobject.convert_basic_particle_to_binary_particle(beta_alpha);
-        rjobject.record_binary_samples(record_binary_rj);
-        rjobject.run_binary_simulation();
-        if (record_binary_rj) {
-            string MAP_cps_Filename = data_file + "_binary_MAP_CPs.txt";
-            rjobject.write_binary_MAP_changepoints_to_file(MAP_cps_Filename);
-            string dimension_distribution_Filename = data_file + "_binary_dimension_distribution.txt";
-            rjobject.write_binary_dimension_distribution_to_file(dimension_distribution_Filename);
-            string changepoints_distribution_Filename = data_file + "_binary_changepoints_distribution.txt";
-            rjobject.write_binary_changepoints_distribution_to_file(changepoints_distribution_Filename);
-            string log_posterior_trace_Filename = data_file + "_binary_log_posterior_trace.txt";
-            rjobject.write_binary_log_posterior_trace_to_file(log_posterior_trace_Filename);
-        }
-    
-        unsigned long int full_burnin = burnin;
-        unsigned long int full_iterations = record_full_rj ? iterations : 0;
-        unsigned long int full_thinning = thinning;
-    
-        rjobject.set_full_burnin_iterations_thinning(full_burnin, full_iterations, full_thinning);
-        rjobject.convert_binary_particle_to_full_particle(dirichlet_alpha, rho);
-        rjobject.record_full_samples(record_full_rj, data_file);
-        rjobject.run_full_simulation();
-        if (record_full_rj) {
-            string MAP_cps_Filename = data_file + "_full_MAP_CPs.txt";
-            rjobject.write_full_MAP_changepoints_to_file(MAP_cps_Filename);
-            string dimension_distribution_Filename = data_file + "_full_dimension_distribution.txt";
-            rjobject.write_full_dimension_distribution_to_file(dimension_distribution_Filename);
-            string effective_dimension_distribution_Filename = data_file + "_full_effective_dimension_distribution.txt";
-            rjobject.write_full_effective_dimension_distribution_to_file(effective_dimension_distribution_Filename);
-            string changepoints_distribution_Filename = data_file + "_full_changepoints_distribution.txt";
-            rjobject.write_full_changepoints_distribution_to_file(changepoints_distribution_Filename, full_iterations);
-            string number_of_regimes_Filename = data_file + "_full_number_of_regimes.txt";
-            rjobject.write_number_of_regimes_to_file(number_of_regimes_Filename);
-            string number_of_observed_regimes_Filename = data_file + "_full_number_of_observed_regimes.txt";
-            rjobject.write_number_of_observed_regimes_to_file(number_of_observed_regimes_Filename);
-            string log_posterior_trace_Filename = data_file + "_full_log_posterior_trace.txt";
-            rjobject.write_full_log_posterior_trace_to_file(log_posterior_trace_Filename);
-            string dimension_trace_Filename = data_file + "_full_dimension_trace.txt";
-            rjobject.write_dimension_trace_to_file(dimension_trace_Filename);
-            string number_of_regimes_trace_Filename = data_file + "_number_of_regimes_trace.txt";
-            rjobject.write_number_of_regimes_trace_to_file(number_of_regimes_trace_Filename);
-            string full_acceptance_probabilities_Filename = data_file + "_full_acceptance_probabilities.txt";
-            rjobject.write_full_acceptance_probabilities_to_file(full_acceptance_probabilities_Filename);
-        }
-        if (record_similarity_matrix) {
-            string similarity_Filename = data_file + "_similarity_matrix.txt";
-            rjobject.write_similarity_matrix_to_file(similarity_Filename);
-            string min_proportion_similarity_Filename = data_file + "_min_proportion_similarity_matrix.txt";
-            rjobject.write_min_proportion_similarity_matrix_to_file(min_proportion_similarity_Filename);
-			string similarity_matrices_Filename = data_file + "_similarity_matrices.txt";
-			rjobject.write_similarity_matrices_to_file(similarity_matrices_Filename);
-			string min_proportion_similarity_matrices_Filename = data_file + "_min_proportion_similarity_matrices.txt";
-			rjobject.write_min_proportion_similarity_matrices_to_file(min_proportion_similarity_matrices_Filename);
-        }
-        if (number_of_association_matrix_bins > 0) { // if recording the association matrix
-            string association_matrix_Filename = data_file + "_association_matrix.txt";
-            rjobject.write_association_matrix_to_file(association_matrix_Filename);
-        }
+    unsigned long int basic_burnin = burnin;
+    unsigned long int basic_iterations = record_basic_rj ? iterations : 0;
+    unsigned long int basic_thinning = thinning;
+	
+    rj rjobject = rj(start_time, end_time, p, var_p, basic_burnin, basic_iterations, basic_thinning, number_of_association_matrix_bins, starting_changepoints, separators, trace_lengths, seed, &pm, intercept, diff);
+    rjobject.record_basic_samples(record_basic_rj);
+    rjobject.run_basic_simulation();
+    if (record_basic_rj) {
+        string MAP_cps_Filename = data_file + "_basic_MAP_CPs.txt";
+        rjobject.write_basic_MAP_changepoints_to_file(MAP_cps_Filename);
+        string dimension_distribution_Filename = data_file + "_basic_dimension_distribution.txt";
+        rjobject.write_basic_dimension_distribution_to_file(dimension_distribution_Filename);
+        string changepoints_distribution_Filename = data_file + "_basic_changepoints_distribution.txt
+	rjobject.write_basic_changepoints_distribution_to_file(changepoints_distribution_Filename);
+   	string log_posterior_trace_Filename = data_file + "_basic_log_posterior_trace.txt";
+    	rjobject.write_basic_log_posterior_trace_to_file(log_posterior_trace_Filename);
+	string basic_dimension_trace_Filename = data_file + "_basic_dimension_trace.txt";
+        rjobject.write_basic_dimension_trace_to_file(basic_dimension_trace_Filename);
     }
-    else {
-        smc smcobject = smc(start_time, end_time, p, var_p, beta_alpha, dirichlet_alpha, rho, number_of_particles, number_of_intervals_per_trace, number_of_association_matrix_bins, burnin, iterations, thinning, seed, &pm, intercept, diff, separators, trace_lengths, chopthin_resampling, always_new_regime);
-        smcobject.run_SMC();
-		string MAP_cps_Filename = data_file + "_full_MAP_CPs.txt";
-		smcobject.write_full_MAP_changepoints_to_file(MAP_cps_Filename);
-		string dimension_distribution_Filename = data_file + "_full_dimension_distribution.txt";
-		smcobject.write_full_dimension_distribution_to_file(dimension_distribution_Filename);
-		string effective_dimension_distribution_Filename = data_file + "_full_effective_dimension_distribution.txt";
-		smcobject.write_full_effective_dimension_distribution_to_file(effective_dimension_distribution_Filename);
-		string changepoints_distribution_Filename = data_file + "_full_changepoints_distribution.txt";
-		smcobject.write_full_changepoints_distribution_to_file(changepoints_distribution_Filename, 100);
-		string number_of_regimes_Filename = data_file + "_full_number_of_regimes.txt";
-		smcobject.write_number_of_regimes_to_file(number_of_regimes_Filename);
-		string number_of_observed_regimes_Filename = data_file + "_full_number_of_observed_regimes.txt";
-		smcobject.write_number_of_observed_regimes_to_file(number_of_observed_regimes_Filename);
-		if (record_similarity_matrix) {
-			string similarity_Filename = data_file + "_similarity_matrix.txt";
-			smcobject.write_similarity_matrix_to_file(similarity_Filename);
-			string min_proportion_similarity_Filename = data_file + "_min_proportion_similarity_matrix.txt";
-			smcobject.write_min_proportion_similarity_matrix_to_file(min_proportion_similarity_Filename);
-		}
-        string number_of_effective_changepoints_and_regimes_Filename = data_file + "_number_of_effective_changepoints_and_regimes.txt";
-        smcobject.write_number_of_effective_changepoints_and_regimes_to_file(number_of_effective_changepoints_and_regimes_Filename);
-        string effective_sample_sizes_Filename = data_file + "_effective_sample_sizes.txt";
-        smcobject.write_effective_sample_sizes_to_file(effective_sample_sizes_Filename);
-        if (number_of_association_matrix_bins > 0) { // if recording the association matrix
-            string association_matrix_Filename = data_file + "_association_matrix.txt";
-            smcobject.write_association_matrix_to_file(association_matrix_Filename);
-        }
+
+    unsigned long int binary_burnin = burnin;
+    unsigned long int binary_iterations = record_binary_rj ? iterations : 0;
+    unsigned long int binary_thinning = thinning;
+
+    rjobject.set_binary_burnin_iterations_thinning(binary_burnin, binary_iterations, binary_thinning);
+    rjobject.convert_basic_particle_to_binary_particle(beta_alpha);
+    rjobject.record_binary_samples(record_binary_rj);
+    rjobject.run_binary_simulation();
+    if (record_binary_rj) {
+    	string MAP_cps_Filename = data_file + "_binary_MAP_CPs.txt";
+    	rjobject.write_binary_MAP_changepoints_to_file(MAP_cps_Filename);
+    	string dimension_distribution_Filename = data_file + "_binary_dimension_distribution.txt";
+    	rjobject.write_binary_dimension_distribution_to_file(dimension_distribution_Filename);
+	string changepoints_distribution_Filename = data_file + "_binary_changepoints_distribution.txt";
+    	rjobject.write_binary_changepoints_distribution_to_file(changepoints_distribution_Filename);
+    	string log_posterior_trace_Filename = data_file + "_binary_log_posterior_trace.txt";
+    	rjobject.write_binary_log_posterior_trace_to_file(log_posterior_trace_Filename);
+    }
+
+    unsigned long int full_burnin = burnin;
+    unsigned long int full_iterations = record_full_rj ? iterations : 0;
+    unsigned long int full_thinning = thinning;
+
+    rjobject.set_full_burnin_iterations_thinning(full_burnin, full_iterations, full_thinning);
+    rjobject.convert_binary_particle_to_full_particle(dirichlet_alpha, rho);
+    rjobject.record_full_samples(record_full_rj, data_file);
+    rjobject.run_full_simulation();
+    if (record_full_rj) {
+        string MAP_cps_Filename = data_file + "_full_MAP_CPs.txt";
+        rjobject.write_full_MAP_changepoints_to_file(MAP_cps_Filename);
+        string dimension_distribution_Filename = data_file + "_full_dimension_distribution.txt";
+        rjobject.write_full_dimension_distribution_to_file(dimension_distribution_Filename);
+        string effective_dimension_distribution_Filename = data_file + "_full_effective_dimension_distribution.txt";
+        rjobject.write_full_effective_dimension_distribution_to_file(effective_dimension_distribution_Filename);
+        string changepoints_distribution_Filename = data_file + "_full_changepoints_distribution.txt";
+        rjobject.write_full_changepoints_distribution_to_file(changepoints_distribution_Filename, full_iterations);
+        string number_of_regimes_Filename = data_file + "_full_number_of_regimes.txt";
+        rjobject.write_number_of_regimes_to_file(number_of_regimes_Filename);
+        string number_of_observed_regimes_Filename = data_file + "_full_number_of_observed_regimes.txt";
+        rjobject.write_number_of_observed_regimes_to_file(number_of_observed_regimes_Filename);
+        string log_posterior_trace_Filename = data_file + "_full_log_posterior_trace.txt";
+        rjobject.write_full_log_posterior_trace_to_file(log_posterior_trace_Filename);
+        string dimension_trace_Filename = data_file + "_full_dimension_trace.txt";
+        rjobject.write_dimension_trace_to_file(dimension_trace_Filename);
+        string number_of_regimes_trace_Filename = data_file + "_number_of_regimes_trace.txt";
+        rjobject.write_number_of_regimes_trace_to_file(number_of_regimes_trace_Filename);
+        string full_acceptance_probabilities_Filename = data_file + "_full_acceptance_probabilities.txt";
+        rjobject.write_full_acceptance_probabilities_to_file(full_acceptance_probabilities_Filename);
+    }
+    if (record_similarity_matrix) {
+        string similarity_Filename = data_file + "_similarity_matrix.txt";
+        rjobject.write_similarity_matrix_to_file(similarity_Filename);
+        string min_proportion_similarity_Filename = data_file + "_min_proportion_similarity_matrix.txt";
+        rjobject.write_min_proportion_similarity_matrix_to_file(min_proportion_similarity_Filename);
+	string similarity_matrices_Filename = data_file + "_similarity_matrices.txt";
+	rjobject.write_similarity_matrices_to_file(similarity_matrices_Filename);
+	string min_proportion_similarity_matrices_Filename = data_file + "_min_proportion_similarity_matrices.txt";
+	rjobject.write_min_proportion_similarity_matrices_to_file(min_proportion_similarity_matrices_Filename);
+    }
+    if (number_of_association_matrix_bins > 0) { // if recording the association matrix
+        string association_matrix_Filename = data_file + "_association_matrix.txt";
+        rjobject.write_association_matrix_to_file(association_matrix_Filename);
     }
 
     return 0;
