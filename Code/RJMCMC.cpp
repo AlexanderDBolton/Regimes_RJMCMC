@@ -171,7 +171,7 @@ int main(int argc, char * argv[]) {
         rjobject.write_basic_MAP_changepoints_to_file(MAP_cps_Filename);
         string dimension_distribution_Filename = data_file + "_basic_dimension_distribution.txt";
         rjobject.write_basic_dimension_distribution_to_file(dimension_distribution_Filename);
-        string changepoints_distribution_Filename = data_file + "_basic_changepoints_distribution.txt
+        string changepoints_distribution_Filename = data_file + "_basic_changepoints_distribution.txt";
 	rjobject.write_basic_changepoints_distribution_to_file(changepoints_distribution_Filename);
    	string log_posterior_trace_Filename = data_file + "_basic_log_posterior_trace.txt";
     	rjobject.write_basic_log_posterior_trace_to_file(log_posterior_trace_Filename);
