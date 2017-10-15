@@ -586,13 +586,13 @@ void rj::run_basic_simulation(){
             m_b_k = 1.0;
         }
         
-        if (iteration == 100 || iteration == 250 || iteration == 500 || iteration == 750 || iteration == 1000 || iteration == 10000) {
+        /*if (iteration == 100 || iteration == 250 || iteration == 500 || iteration == 750 || iteration == 1000 || iteration == 10000) {
             cout << "iteration: " << iteration << endl;
             cout << "dimension: " << m_dimension << endl;
             cout << "birth: " << accepted_adds << " / " << attempted_adds << " = " << accepted_adds / attempted_adds << endl;
             cout << "death: " << accepted_deaths << " / " << attempted_deaths << " = " << accepted_deaths / attempted_deaths << endl;
             cout << "move: " << accepted_moves << " / " << attempted_moves << " = " << accepted_moves / attempted_moves << endl;
-        }
+        }*/
         
         //m_particle.check_separator_changepoints();
 
