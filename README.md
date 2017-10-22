@@ -10,7 +10,10 @@ Language Requirements
 
 Code
 
-The code for performing RJMCMC sampling is written in C++ and is contained in the 'Code' directory. The compile_regime executable will compile the code into an executable called RJMCMC.
+The code for performing RJMCMC sampling is written in C++ and is contained in the 'Code' directory. When run in terminal on a computer running Linux, the compile_regime executable will compile the code into an executable called RJMCMC. See below (the sections titled 'Input Parameters' and 'How To Run The RJMCMC Sampler') for information on how to run a job.
+
+
+Example
 
 
 
