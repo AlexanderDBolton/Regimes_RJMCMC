@@ -25,7 +25,8 @@ The Simulation_Study folder contains two executables: RJMCMC and PELT, which run
 
 Input Parameters
 
-- A data file: 
+The input parameters must be stored in a file containing each of the following (see the Example directory for an example).
+- A data file: Must have a name of the form "{runName}_everything.txt"
 
 
 
