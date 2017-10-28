@@ -35,9 +35,13 @@ The input parameters must be stored in a file containing each of the following (
 3     gaussian    sample_data_process_2.txt     uniform_arrivals
 
 2     poisson     sample_data_process_3.txt     sample_data_times_process_3.txt
+
 The first number is the number of states: for a Markov chain this is the number of states (assuming that the states are labelled 0, 1, ...) in the input data. For a multinomial process (labelled independent_chain here) it is also the number of states (again assuming that the states are labelled from 0). For Gaussian observations 3 is used because the number of observations, sum of observations and sum of observations squared are the 3 sufficient statistics extracted from the data in any likelihood calculation. For Poisson observations 2 is used because only the number of observations and the sum of observations are used in any likelihood calculation.
+
 The second column gives the name of the process. markov_chain, independent_chain, gaussian or poisson can be used.
+
 The third column gives the observations. They should be stored in separate files. The data values can be separated by tabs, spaces or put on different lines.
+
 The third column gives a data file containing the times at which the data are observed. The observations must arrive in discrete time. Multiple observations can occur at the same time. If you supply your own file with observation times then they must be sorted in ascending order. The times at which observations can arrive are 0, 1, 2, ..., end_time (end_time is one of the parameters that you will specify). If your observations arrive regularly at times 0, 1, 2, ... then you can give "uniform_arrivals" as the input here and you don't need ot create a file with observation times.
 - end_time: The time of the last arrival. Remember that the first observation is at time 0, so if you have n observations at times 0, 1, 2, ... then end_time should be n - 1.
 - diff: The possible change point positions will change from 1, 2, ..., end_time to diff, 2*diff, .... Using a diff > 1 will reduce the amount of memory required to store the data and may improve the performance of the sampler if the random process is particularly long. The default value is 1.
