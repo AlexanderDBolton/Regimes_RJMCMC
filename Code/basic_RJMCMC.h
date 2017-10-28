@@ -223,7 +223,6 @@ rj::rj(const unsigned long int & start_time, const unsigned long int & end_time,
     else {
         m_observations_in_each_trace = vector< unsigned long int >(separators.size() + 1, 0);
         if (separators.size() > 0) {
-            cout << "Assuming observations at 1, 2, 3, ..., s_1 + 1, s_1 + 2, ... in traces" << endl;
             m_observations_in_each_trace[0] = (separators[0] - 1 - m_start) * m_diff; // as first observation at time 1 and separators[0] gives the time of the last observation.
             for (unsigned int trace_idx = 1; trace_idx < separators.size(); trace_idx++) {
                 m_observations_in_each_trace[trace_idx] = (separators[trace_idx] - separators[trace_idx - 1] - 1) * m_diff;
