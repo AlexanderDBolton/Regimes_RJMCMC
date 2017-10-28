@@ -71,4 +71,4 @@ The third column gives a data file containing the times at which the data are ob
 - seed: The random seed for the RJMCMC sampler.
 
 notes gtools R package
-      move .py file, PELT, RJMCMC, etc from hustler to git, create a new R file for analysing the results and get python to call it.
+      remove "Assuming... " line from basic_RJMCMC.h and then recompile, move executable back into GitHub. move .py file, PELT, RJMCMC, etc from hustler to git, create a new R file for analysing the results and get python to call it.
