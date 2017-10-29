@@ -77,5 +77,27 @@ The third column gives a data file containing the times at which the data are ob
 ./RJMCMC yourPrefix_input_parameters.txt
 ````
 
-notes gtools R package
-      remove "Assuming... " line from basic_RJMCMC.h and then recompile, move executable back into GitHub. move .py file, PELT, RJMCMC, etc from hustler to git, create a new R file for analysing the results and get python to call it.
+
+### Output
+#### "Basic" Change Points (i.e. No Marked Vectors)
+- basic_changepoints_distribution: The time interval {0, 1, ..., m_end} is split into 100 equally-sized bins. The posterior probability that a change point is contained within each bin is recorded.
+- basic_dimension_distribution: The posterior distribution of the number of change points (the dimension of the model).
+- basic_dimension_trace: The trace of RJMCMC iterations of the dimension of the model.
+- basic_log_posterior_trace: The trace of the log posterior of the change point model.
+- basic_MAP_CPs: The set of change points with the highest observed log posterior value. The default change points at time 0 and m_end + 1 are assumed.
+#### "Binary" Change Points (i.e. With Binary Marked Vectors)
+- binary_changepoints_distribution: For each process, the time interval {0, 1, ..., m_end} is split into 100 equally-sized bins. For each process, the posterior probability that a change point affects a process is recorded.
+- binary_dimension_distribution: The posterior distribution of the number of change points.
+- binary_log_posterior_trace: The trace of the log-posterior of the change point model.
+- binary_MAP_CPs: The set of change points and binary marked vectors with the highest observed log posterior value. The first column gives the time of each change point. Then each column gives whether each process accepts the change point (denoted 1) or not (denoted 0).
+#### "Full" Change Points (i.e. With Regime Marked Vectors)
+- full_acceptance_probabilities: The number of each type of move attempted in the regime RJMCMC sampling stage and the numbers of successful attempts.
+- full_changepoints_distribution: For each process, the time interval {0, 1, ..., m_end} is split into 100 equally-sized bins. For each process, the posterior probability that a change point affects a process is recorded.
+- full_dimension_distribution: The posterior distribution of the number of change points.
+- full_dimension_trace: The trace of RJMCMC iterations of the dimension of the model.
+- full_effective_dimension_distribution: The posterior distribution of the number of 'effective' change points, i.e. the number of change points at which the regime changes for at least one process.
+- full_log_posterior_trace: The trace of the log-posterior of the change point model.
+- full_MAP_CPs: The first line gives the log-posterior of the set of change points and regime marked vectors with the highest observed log-posterior value. Then the MAP number of change points is given. Then the first column gives the times of the change points. Then each column gives the regime that begins at that change point. The regime that begins at time 0 is 0.
+- full_number_of_observed_regimes: The first column gives the process number (starting from 0). The second column gives the number of regimes and the third gives the posterior probability that that number of regimes affects the process.
+- full_number_of_regimes: The first column gives the process number (starting from 0). The second column gives the number of regimes (both ones that affect the process and regimes that exist but are never selected) and the third gives the posterior probability that that number of regimes affects the process.
+- number_of_regimes_trace: The trace of the number of regimes of the change point model.
