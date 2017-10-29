@@ -49,7 +49,7 @@ The third column gives a data file containing the times at which the data are ob
 - gaussian_alpha_0: Low values of alpha_0 are uninformative. If no processes with Gaussian data are run, then this can be set to be any value.
 - gaussian_beta_0: Low values of beta_0 are uninformative. If no processes with Gaussian data are run, then this can be set to be any value.
 - poisson_alpha: The prior for the Poisson parameter lambda is Gamma(poisson_alpha, poisson_beta). If no processes with Poisson data are run, then this can be set to be any value.
-- poisson_alpha: If no processes with Gaussian data are run, then this can be set to be any value.
+- poisson_beta: If no processes with Gaussian data are run, then this can be set to be any value.
 - markov_alpha: For a multinomial process or a Markov chain, the prior distribution is Dirichlet(markov_alpha, ..., markov_alpha). If no multinomial processes or Markov chains are run, then this can be set to be any value.
 - p: The expected number of change points. This will be converted to a prior of 'p = expected number of change points / possible number of change points' and each possible change point position has prior probability p of being a change point.
 - var_p: If var_p is set to be 0 then the prior distribution of the change points is a Bernoulli process, with each point having fixed probability p of being a change point. If 0 < var_p < p*(1 - p) then the prior is a beta distribution with mean p and variance var_p (the beta distribution parameters are estimated using the method of moments.
