@@ -3,9 +3,9 @@
 
 ### Language Requirements
 
-- C++ (with the Gnu Scientific Library (GSL) installed),
-- Python (to recreate Figure 8 in Malware Family Discovery Using Reversible Jump MCMC Sampling of Regimes), and
-- R (with the gtools package installed in order to recreate Figure 8).
+- C++ with the Gnu Scientific Library (GSL) installed,
+- Python (if you want to recreate Figure 8 in Malware Family Discovery Using Reversible Jump MCMC Sampling of Regimes), and
+- R with the gtools package installed (if you want to recreate Figure 8).
 
 
 ### Code
