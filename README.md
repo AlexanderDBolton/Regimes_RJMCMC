@@ -59,7 +59,7 @@ The third column gives a data file containing the times at which the data are ob
 - burnin: The number of burn-in iterations to run before recording simulations at each of the three stages.
 - iterations: The number of RJMCMC iterations to be run in each of the three stages.
 - thinning: The number of iterations to skip between iterations. The total number of iterations recorded is iterations / thinning.
-- number_of_association_matrix_bins: To build an association matrix (a matrix that states the posterior probability that a pair of time points in a process are generated from the same regime), the number of bins that the points should be divided into.
+- number_of_association_matrix_bins: To build an association matrix (a matrix that states the posterior probability that a pair of time points in a process are generated from the same regime), the number of bins that the points should be divided into. If you don't want an association matrix to be output then set this to 0.
 - record_basic_rj: Input 0 or 1. If 0, the output of the unmarked change point RJMCMC sampling will not be recorded. If 1, it will be recorded.
 - record_binary_rj: Input 0 or 1. If 0, the output of the binary marked vector and change point RJMCMC sampling will not be recorded. If 1, it will be recorded.
 - record_full_rj: Input 0 or 1. If 0, the output of the regime marked vector and change point RJMCMC sampling will not be recorded. If 1, it will be recorded.
@@ -67,7 +67,7 @@ The third column gives a data file containing the times at which the data are ob
 - starting_changepoints_file: Gives the name of the file containing a starting set of change points. If no set of starting change points is provided, write "no_starting_changepoints".
 - separator_file: The name of a file containing the times at which the different traces begin (0 should not be included). If no separators are included then write "no_separators".
 - trace_lengths_file: The name of a file containing the number of observations in each trace. Use if diff > 1 as this will make the trace length estimates incorrect. Write "no_trace_lengths" if diff == 1.
-- seed: The random seed for the RJMCMC sampler.
+- seed: The random seed for the RJMCMC sampler. Must be a non-negative integer.
 
 
 ### How to Run The RJMCMC Sampler
