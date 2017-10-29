@@ -1,0 +1,2 @@
+2	independent_chain	example_data_0.txt	uniform_arrivals
+2	independent_chain	example_data_1.txt	example_times_1.txt

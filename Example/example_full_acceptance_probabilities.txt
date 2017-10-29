@@ -1,0 +1,6 @@
+full birth acceptance probability	0.0442617642 = 11070 / 250103
+full death acceptance probability	0.0442495563 = 11070 / 250172
+full move acceptance probability	0.0010163091 = 190 / 186951
+full resample acceptance probability	1.0000000000 = 187835 / 187835
+full alter unobserveds acceptance probability	1.0000000000 = 124939 / 124939
+full overall acceptance probability	0.3351040000 = 335104 / 1000000
