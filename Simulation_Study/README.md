@@ -1,6 +1,6 @@
 To run the code in this directory call
 ````
-python parallel_simulation.py
+python pairs_parallel_simulation.py
 ````
 
 By default, this will run on 4 cores in parallel, but this can be changed in the Pool commands.
