@@ -157,7 +157,7 @@ data_input::data_input(string data_filename, string data_times_filename, unsigne
         /*for (unsigned long int index = 0; index < (end_time + 1) / m_diff; index++) {
             m_cumulative_data.push_back(vector< double >(m_number_of_states * m_number_of_states, 0.0));
         }*/
-        m_cumulative_data = vector< vector< double > >((end_time + 1) / m_diff, vector< double >(m_number_of_states, 0.0));
+        m_cumulative_data = vector< vector< double > >((end_time + 1) / m_diff, vector< double >(m_number_of_states * m_number_of_states, 0.0));
         if ((end_time + 1) % m_diff != 0) { //if m_diff doesn't evenly divide end_time + 1 then we will need an extra row for the overspill
             m_cumulative_data.push_back(vector< double >(m_number_of_states * m_number_of_states, 0.0));
         }
@@ -289,12 +289,12 @@ data_input::data_input(string data_filename, string data_times_filename, unsigne
     }
     
     //insert vector of 0s at the beginning
-    m_cumulative_data.insert(m_cumulative_data.begin(), vector< double >(m_number_of_states, 0.0));
+    m_cumulative_data.insert(m_cumulative_data.begin(), vector< double >(m_cumulative_data[0].size(), 0.0));
 
     //convert data into cumulative data
     size_t cumulative_data_size = m_cumulative_data.size();
     for (size_t i = 1; i < cumulative_data_size; i++) {
-        for (size_t j = 0; j < m_number_of_states; j++) {
+        for (size_t j = 0; j < m_cumulative_data[i].size(); j++) {
             m_cumulative_data[i][j] += m_cumulative_data[i - 1][j];
         }
     }
