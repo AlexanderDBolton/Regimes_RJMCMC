@@ -35,7 +35,7 @@ The input parameters must be stored in a file containing each of the following (
 2     poisson     sample_data_process_3.txt     sample_data_times_process_3.txt
 ````
 
-The first number is the number of states: for a Markov chain this is the number of states (assuming that the states are labelled 0, 1, ...) in the input data. For a multinomial process (labelled independent_chain here) it is also the number of states (again assuming that the states are labelled from 0). For Gaussian observations 3 is used because the number of observations, sum of observations and sum of observations squared are the 3 sufficient statistics extracted from the data in any likelihood calculation. For Poisson observations 2 is used because only the number of observations and the sum of observations are used in any likelihood calculation.
+The first number is the number of states: for a Markov chain this is the number of states (assuming that the states are labelled 0, 1, ...) in the input data. For a multinomial process (labelled independent_chain here) it is also the number of states (again assuming that the states are labelled from 0). For Gaussian observations 3 is used because the number of observations, sum of observations and sum of observations squared are the 3 sufficient statistics extracted from the data in any likelihood calculation. For Poisson observations 2 is used because only the number of observations and the sum of observations are used in any marginal likelihood calculation.
 
 The second column gives the name of the process. "markov_chain", "independent_chain", "gaussian" or "poisson" can be used.
 
