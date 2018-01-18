@@ -1,0 +1,3 @@
+#!/bin/sh
+g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -c PELT.cpp -std=c++11
+g++ -O3 -Wno-long-long -ansi -mtune=native -march=native -o PELT PELT.o -std=c++11
