@@ -19,7 +19,7 @@ The example gives two simultaneous Bernoulli processes and a full description of
 
 ### PELT Code
 
-The 'PELT_Code' directory contains C++ code for implementing the PELT algorithm for segmenting a time series (see https://arxiv.org/pdf/1101.1438.pdf for an explanation of this algorithm). The PELT algorithm is a change point detection algorithm, and it finds the set of change points that minimises the BIC or AIC. The compile_PELT executable compiles the code into an executable called PELT. Information on how to run a PELT job can be found in the PELT_Code directory.
+The 'PELT_Code' directory contains C++ code for implementing the PELT algorithm for segmenting a time series. PELT was created by R. Killick, P. Fearnhead and I.A. Eckley (see https://arxiv.org/pdf/1101.1438.pdf for their explanation of the algorithm). The PELT algorithm detects change points, finding the set of change points that minimises the BIC or AIC. The compile_PELT executable compiles the code into an executable called PELT. Information on how to run a PELT job can be found in the PELT_Code directory.
 
 ### Simulation Study
 
