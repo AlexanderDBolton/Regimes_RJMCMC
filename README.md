@@ -1,4 +1,5 @@
 # Regimes_RJMCMC
+
 ## C++ Code for performing unmarked, binary and regime change points RJMCMC
 
 ### Language Requirements
@@ -15,11 +16,13 @@ The code for performing RJMCMC sampling is written in C++ and is contained in th
 
 ### Example
 
-The example gives two simultaneous Bernoulli processes and a full description of the change points for these processes. Input parameters are included as well.
+The example gives two simultaneous Bernoulli processes and a full description of the change points for these processes. Input parameters for the RJMCMC sampler and PELT algorithm are included as well.
+
 
 ### PELT Code
 
 The 'PELT_Code' directory contains C++ code for implementing the PELT algorithm for segmenting a time series. PELT was created by R. Killick, P. Fearnhead and I.A. Eckley (see https://arxiv.org/pdf/1101.1438.pdf for their explanation of the algorithm). The PELT algorithm detects change points, finding the set of change points that minimises the BIC or AIC. The compile_PELT executable compiles the code into an executable called PELT. Information on how to run a PELT job can be found in the PELT_Code directory.
+
 
 ### Simulation Study
 
@@ -44,7 +47,7 @@ The second column gives the name of the process. "markov_chain", "independent_ch
 
 The third column gives the observations. They should be stored in separate files. The data values can be separated by tabs, spaces or put on different lines.
 
-The third column gives a data file containing the times at which the data are observed. The observations must arrive in discrete time. Multiple observations can occur at the same time. If you supply your own file with observation times then they must be sorted in ascending order. The times at which observations can arrive are 0, 1, 2, ..., end_time (end_time is one of the parameters that you will specify). If your observations arrive regularly at times 0, 1, 2, ... then you can give "uniform_arrivals" as the input here and you don't need ot create a file with observation times.
+The third column gives a data file containing the times at which the data are observed. The observations must arrive in discrete time. Multiple observations can occur at the same time. If you supply your own file with observation times then they must be sorted in ascending order. The times at which observations can arrive are 0, 1, 2, ..., end_time (end_time is one of the parameters that you will specify). If your observations arrive regularly at times 0, 1, 2, ... then you can give "uniform_arrivals" as the input here and you don't need to create a file with observation times.
 - end_time: The time of the last arrival. Remember that the first observation is at time 0, so if you have n observations at times 0, 1, 2, ... then end_time should be n - 1.
 - diff: The possible change point positions will change from 1, 2, ..., end_time to diff, 2*diff, .... Using a diff > 1 will reduce the amount of memory required to store the data and may improve the performance of the sampler if the random process is particularly long. The default value is 1.
 - gaussian_mu_0: The notation for the Gaussian parameters is taken from 'Conjugate Bayesian analysis of the Gaussian distribution' by Kevin P. Murphy http://www.cs.ubc.ca/~murphyk/Papers/bayesGauss.pdf The prior is Normal-Gamma, so the joint prior for the mean mu and precision lambda (the precision is the inverse of the variance) is mu ~ N(mu_0, 1/(kappa_0 * lambda)), lambda ~ Gamma(alpha_0, rate = beta_0). An uninformative value for gaussian_mu_0 is 0. If no processes with Gaussian data are run, then this can be set to be any value.
