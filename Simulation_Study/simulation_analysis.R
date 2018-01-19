@@ -1,5 +1,3 @@
-setwd("~/Dropbox/Pairs_simulation_study")
-
 actual_min_prop_similarities = numeric(1000)
 mean_min_prop_similarities = numeric(1000)
 quantiles_min_prop_similarities = list()
