@@ -17,6 +17,9 @@ The code for performing RJMCMC sampling is written in C++ and is contained in th
 
 The example gives two simultaneous Bernoulli processes and a full description of the change points for these processes. Input parameters are included as well.
 
+### PELT Code
+
+The 'PELT_Code' directory contains C++ code for implementing the PELT algorithm for segmenting a time series (see https://arxiv.org/pdf/1101.1438.pdf for an explanation of this algorithm). The PELT algorithm is a change point detection algorithm, and it finds the set of change points that minimises the BIC or AIC. The compile_PELT executable compiles the code into an executable called PELT. Information on how to run a PELT job can be found in the PELT_Code directory.
 
 ### Simulation Study
 
@@ -35,7 +38,7 @@ The input parameters must be stored in a file containing each of the following (
 2     poisson     sample_data_process_3.txt     sample_data_times_process_3.txt
 ````
 
-The first number is the number of states: for a Markov chain this is the number of states (assuming that the states are labelled 0, 1, ...) in the input data. For a multinomial process (labelled independent_chain here) it is also the number of states (again assuming that the states are labelled from 0). For Gaussian observations 3 is used because the number of observations, sum of observations and sum of observations squared are the 3 sufficient statistics extracted from the data in any likelihood calculation. For Poisson observations 2 is used because only the number of observations and the sum of observations are used in any marginal likelihood calculation.
+The first number is the number of states: for a Markov chain this is the number of states (assuming that the states are labelled 0, 1, ...) in the input data. For a multinomial process (labelled independent_chain here) it is also the number of states (again assuming that the states are labelled from 0). For Gaussian observations 3 is used because the number of observations, sum of observations and sum of observations squared are the 3 sufficient statistics extracted from the data in any likelihood calculation. For Poisson observations 2 is used because only the number of observations and the sum of observations are used in any marginal likelihood calculation (and 3 states are used for Poisson PELT jobs since we also need to keep track of the factorials of the observations in order to calculate the log likelihood).
 
 The second column gives the name of the process. "markov_chain", "independent_chain", "gaussian" or "poisson" can be used.
 
