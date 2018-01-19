@@ -32,7 +32,7 @@ The third column gives the observations. They should be stored in separate files
 The third column gives a data file containing the times at which the data are observed. The observations must arrive in discrete time. Multiple observations can occur at the same time. If you supply your own file with observation times then they must be sorted in ascending order. The times at which observations can arrive are 0, 1, 2, ..., end_time (end_time is one of the parameters that you will specify). If your observations arrive regularly at times 0, 1, 2, ... then you can give "uniform_arrivals" as the input here and you don't need to create a file with observation times.
 - criterion: This can be "AIC" or "BIC" and gives the information criterion that will be minimised. The set of change points that minimises the chosen information criterion will be returned.
 - end_time: The time of the last arrival. Remember that the first observation is at time 0, so if you have n observations at times 0, 1, 2, ... then end_time should be n - 1.
-- diff: The possible change point positions will change from 1, 2, ..., end_time to diff, 2*diff, .... Using a diff > 1 will reduce the amount of memory required to store the data and may improve the performance of the sampler if the random process is particularly long. The default value is 1.
+- diff: The possible change point positions will change from 1, 2, ..., end_time to diff, 2*diff, .... Using a diff > 1 will reduce the amount of memory required to store the data and may improve the performance of the algorithm if the random process is particularly long. The default value is 1.
 
 
 ### Output
