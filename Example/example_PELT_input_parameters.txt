@@ -1,0 +1,4 @@
+example_everything.txt
+BIC
+19999
+1
