@@ -15,9 +15,9 @@ for (i in 1:1000) {
     quantiles_similarities[[i]] = X[14:18]
 }
 
-pdf("pairs_simulation_analysis.pdf")
+pdf("pairs_simulation_analysis.pdf", width = 19)
 par(mar = c(4.1, 4.1, 0.1, 0.1), cex = 2)
-plot(actual_min_prop_similarities, mean_min_prop_similarities, xlab = "Actual similarity", ylab = "Mean estimated similarity", pch = ".")
+plot(actual_min_prop_similarities, mean_min_prop_similarities, xlab = "True similarity", ylab = "Estimated similarity", pch = 20)
 abline(0, 1)
 abline(0.0515, 1, lty = 2)
 abline(-0.0515, 1, lty = 2)
